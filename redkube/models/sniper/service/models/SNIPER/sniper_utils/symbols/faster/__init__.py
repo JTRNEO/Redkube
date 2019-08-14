@@ -1,0 +1,9 @@
+import resnet_mx_101_e2e
+import resnet_mx_101_e2e_mask
+import mobilenetv2_e2e
+import resnet_mx_50_e2e
+import resnet_mx_101_e2e_mask_satellite
+import resnet_mx_101_e2e_mask_dota
+import resnet_mx_101_e2e_mask_satellite2
+import resnet_mx_101_e2e_mask_dota2
+import resnet_mx_101_e2e_satellite

@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sniper-inference
+spec:
+  parallelism: 8
+  template:
+    metadata:
+      name: job-sniper-geo-inference
+    spec:
+      containers:
+      - name: inference
+        image: sniper_geo:final
+        volumeMounts:
+                    - name: pod
+                      mountPath: "/mnt"
+                    - name: sniper
+                      mountPath: "/sniper"
+
+        resources:
+                    limits:
+                      nvidia.com/gpu: 1
+        #command: [ "/bin/bash", "-c", "--" ]   # For debugging
+        #args: [ "while true; do sleep 30; done;" ]
+        command: ['sh','sniper-inference.sh']
+      restartPolicy: OnFailure
+#      volumes:
+#               - name: pod
+#                 nfs:
+#                   path: /home/ashwin/service_nfs
+#                   server: 172.31.24.201
+#               - name: sniper
+#                 nfs:
+#                   path: /home/ashwin/sniper_volume/sniper
+#                   server: 172.31.24.201
+      volumes:
+                - name: pod
+                  persistentVolumeClaim:
+                   claimName: task-pv-claim
+                - name: sniper
+                  persistentVolumeClaim:
+                   claimName: sniper-pv-claim

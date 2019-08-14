@@ -1,0 +1,16 @@
+#pods/storage/pv-volume.yaml 
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: sniper-pv-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: "/home/ubuntu/redkube/models/sniper"
+    server: 172.31.20.25

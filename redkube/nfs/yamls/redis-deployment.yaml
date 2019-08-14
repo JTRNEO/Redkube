@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+        name: satellite-preprocessing
+spec:
+  template:
+    metadata:
+      labels:
+        app: crop
+    spec:
+           containers:
+                - image: jtrneo/redis:fin
+                  name: redis-demo
+                  command: [ "/bin/bash", "-c", "--" ]
+                  args: [ "while true; do sleep 30; done;" ]	
+                  volumeMounts:
+                    - name: nfs
+                      mountPath: "/mnt"
+           volumes:
+               - name: nfs
+                 persistentVolumeClaim:
+                  claimName: nfs-pv-claim
+                 

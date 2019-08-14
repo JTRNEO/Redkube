@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: panet-inference
+spec:
+  parallelism: 8
+  template:
+    metadata:
+      name: job-panet-geo-inference
+    spec:
+      containers:
+      - name: inference
+        image: 172.31.20.21:5000/panet_geo
+        volumeMounts:
+                    - name: panet
+                      mountPath: "/workspace/PANet"
+                    - name: nfs
+                      mountPath: "/mnt"
+
+        resources:
+                    limits:
+                      nvidia.com/gpu: 1
+        #command: [ "/bin/bash", "-c", "--" ]   # For debugging
+        #args: [ "while true; do sleep 30; done;" ]
+        command: ['sh','panet-inference.sh']
+      restartPolicy: OnFailure
+#      volumes:
+#               - name: pod
+#                 nfs:
+#                   path: /home/ashwin/service_nfs
+#                   server: 172.31.24.201
+#               - name: sniper
+#                 nfs:
+#                   path: /home/ashwin/sniper_volume/sniper
+#                   server: 172.31.24.201
+      volumes:
+                - name: panet
+                  persistentVolumeClaim:
+                   claimName: panet-pv-claim
+                - name: nfs
+                  persistentVolumeClaim:
+                   claimName: nfs-pv-claim

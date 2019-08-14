@@ -1,0 +1,17 @@
+#pods/storage/pv-volume.yaml 
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: nfs-pv-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  nfs:
+    path: "/home/ubuntu/redkube/nfs"
+    server: 172.31.20.25

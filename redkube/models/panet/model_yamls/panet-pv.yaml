@@ -1,0 +1,17 @@
+#pods/storage/pv-volume.yaml 
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: panet-pv-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  nfs:
+    path: "/home/ubuntu/redkube/models/panet"
+    server: 172.31.20.25
